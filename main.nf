@@ -20,7 +20,8 @@ nextflow.enable.dsl = 2
 // TODO nf-core: Remove this line if you don't need a FASTA file
 //   This is an example of how to use getGenomeAttribute() to fetch parameters
 //   from igenomes.config using `--genome`
-params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
+//params.fasta = '/Users/tanhj1/Homo_sapiens_assembly38.fasta'
+//params.fai = '/Users/tanhj1/Homo_sapiens_assembly38.fasta.fai'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,13 +53,21 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { DELLY } from './workflows/delly'
+include { DELLY_CALL } from './modules/nf-core/delly/call'
 
 //
 // WORKFLOW: Run main nf-core/delly analysis pipeline
 //
 workflow NFCORE_DELLY {
-    DELLY ()
+	
+	// Inputs
+	sample_ch = Channel
+			.fromPath(params.input)
+			.splitCsv(header:true)
+			.map{ row -> tuple(row.sample_id, file(row.sample_sequence), file(row.sample_index), file(exclude_bed))}
+	
+	
+    	DELLY_CALL (sample_ch, params.fasta, params.fasta+".fai")
 }
 
 /*
