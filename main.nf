@@ -53,7 +53,7 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { DELLY_CALL } from './modules/nf-core/delly/call'
+include { DELLY_CALL } from './modules/local/delly/'
 
 //
 // WORKFLOW: Run main nf-core/delly analysis pipeline
@@ -64,7 +64,7 @@ workflow NFCORE_DELLY {
 	sample_ch = Channel
 			.fromPath(params.input)
 			.splitCsv(header:true)
-			.map{ row -> tuple(row.sample_id, file(row.sample_sequence), file(row.sample_index), file(exclude_bed))}
+			.map{ row -> tuple(row.sample_id, file(row.sample_sequence), file(row.sample_index),file(row.exclude_bed))}
 	
 	
     	DELLY_CALL (sample_ch, params.fasta, params.fasta+".fai")
