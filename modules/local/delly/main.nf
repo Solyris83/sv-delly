@@ -26,7 +26,7 @@ process DELLY_CALL {
     def prefix = task.ext.prefix ?: "${meta}"
     def suffix = task.ext.suffix ?: "bcf"
 
-    def exclude = exclude_bed ? "--exclude ${exclude_bed}" : ""
+    //def exclude = exclude_bed ? "--exclude ${exclude_bed}" : ""
 
     def bcf_output = suffix == "bcf" ? "--outfile ${prefix}.bcf" : ""
     def vcf_output = suffix == "vcf" ? "| bgzip ${args2} --threads ${task.cpus} --stdout > ${prefix}.vcf.gz && tabix ${prefix}.vcf.gz" : ""
