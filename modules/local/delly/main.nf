@@ -8,7 +8,7 @@ process DELLY_CALL {
         'biocontainers/delly:1.1.6--ha41ced6_0' }"
 
     input:
-    tuple val(meta), path(input), path(input_index), path(exclude_bed)
+    tuple val(meta), path(input), path(input_index)
     path fasta
     path fai
 

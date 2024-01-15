@@ -64,7 +64,7 @@ workflow NFCORE_DELLY {
 	sample_ch = Channel
 			.fromPath(params.input)
 			.splitCsv(header:true)
-			.map{ row -> tuple(row.sample_id, file(row.sample_sequence), file(row.sample_index),file(row.exclude_bed))}
+			.map{ row -> tuple(row.sample_id, file(row.sample_sequence), file(row.sample_index))}
 	
 	
     	DELLY_CALL (sample_ch, params.fasta, params.fasta+".fai")
