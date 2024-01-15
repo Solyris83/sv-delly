@@ -37,7 +37,6 @@ process DELLY_CALL {
         ${args} \\
         ${bcf_output} \\
         --genome ${fasta} \\
-        ${exclude} \\
         ${input} \\
         ${vcf_output}
 
